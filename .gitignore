@@ -106,3 +106,4 @@ dist
 csv_container/
 models/
 config/
+.DS_Store
