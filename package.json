@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon --exec babel-node index.js"
   },
   "repository": {
     "type": "git",
@@ -18,11 +18,23 @@
   },
   "homepage": "https://github.com/CgodL/LocalServer#readme",
   "devDependencies": {
+    "@babel/cli": "^7.7.5",
+    "d3": "^5.14.2",
+    "d3.layout.cloud": "^1.2.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.7.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "file-system": "^2.2.2",
+    "json2csv": "^4.5.4",
+    "path": "^0.12.7",
+    "pycollections": "^0.9.0"
   },
   "dependencies": {
-    "nodemon": "^2.0.1"
+    "@babel/core": "^7.7.5",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.6",
+    "mongoose": "^5.7.13",
+    "nodemon": "^2.0.1",
+    "puppeteer": "^2.0.0"
   }
 }
