@@ -1,4 +1,6 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "./config/.env") });
+
 import express from "express";
 import mongoose from "mongoose";
 
@@ -19,20 +21,5 @@ mongoose
   })
   .then(() => console.log("Successfully connected to mongodb"))
   .catch(e => console.error(e));
-
-// db 를 로컬에 연동합니다.
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", () => {
-  console.log("Connection Successful!");
-  // 여기서 데이터 할당
-  var crawldata = new Hashtag({
-    date: String,
-    location: String,
-    tag: String,
-    location_count: Number,
-    tagsCount: Number
-  });
-});
 
 app.listen(port, () => console.log(`Server listening on post ${port}`));

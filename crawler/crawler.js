@@ -2,10 +2,8 @@ const puppeteer = require("puppeteer");
 const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, "../config/.env") });
 
-//DB mongoose
 const mongoose = require("mongoose");
-import Hashtag from "../models/hashtag";
-const db = mongoose.connection;
+const Hashtag = require("../models/hashtag");
 
 // module
 const except = require("./filter_data");
@@ -32,6 +30,9 @@ const countArr = require("./module/countArr");
   let fields_loca = ["locations", "locationCount"];
   let tags_count_obj = { tags: "", tagsCount: 0 };
   let loca_count_obj = { locations: "", locationCount: 0 };
+
+  // let db = mongoose.connection;
+  let instData;
 
   try {
     await page.goto("https://www.instagram.com/accounts/login/"); // Instagram 로그인 화면 이동
@@ -64,7 +65,7 @@ const countArr = require("./module/countArr");
     }
 
     // 해시태그를 뽑아냅니다.
-    while (count < 100) {
+    while (count < 10) {
       //Code for crawling Loaction
       try {
         await page.waitForSelector(".M30cS", { timeout: 5000 });
@@ -76,46 +77,27 @@ const countArr = require("./module/countArr");
         console.log(error);
 
         // DB 에 데이터 추가 하기
-        db.on("error", console.error.bind(console, "connection error: "));
-        db.once("open", () => {
-          console.log("Connection Successful!");
-        });
-        // 지금은 CSV를 만드는 코드 지만, DB와 연결시 DB에 데이터 추가하는 코드로 변경 해야 함
-        if (error instanceof puppeteer.errors.TimeoutError) {
-          tagsToJson(instArr, tagsObj);
-          dataToCount(instArr, tagsObj);
-          locationToJson(instArr, tagsObj);
+        mongoose
+          .connect(process.env.MONGO_URI, {
+            useUnifiedTopology: true,
+            useNewUrlParser: true
+          })
+          .then(() => {
+            console.log("Successfully connected to mongodb");
+            instData = new Hashtag({
+              date: date,
+              location: location,
+              tag: tags
+            });
 
-          let tagsCountArr = [];
-          for (let i = 0; i < tagsArr.length; i++) {
-            if (tagsArr[i] !== undefined) {
-              tagsCountArr = tagsCountArr.concat(tagsArr[i].split(","));
-            }
-          }
+            instData.save((err, book) => {
+              if (err) return console.error(err);
+              console.log(instData.tag);
+            });
+          })
+          .catch(e => console.error(e));
 
-          countArr(tagsCountArr);
-          countArr(locationToJson(instArr, tagsObj));
-
-          makeCsv(
-            ["location", "date", "tags"],
-            tagsToJson(instArr, tagsObj),
-            "all_hashtag"
-          );
-          makeCsv(
-            ["tags", "tagsCount"],
-            dataToCount(countArr(tagsCountArr), { tags: "", tagsCount: 0 }),
-            "count_hashtag"
-          );
-          makeCsv(
-            ["locations", "locationCount"],
-            dataToCount(countArr(locationToJson(instArr, tagsObj)), {
-              locations: "",
-              locationCount: 0
-            }),
-            "loca_count"
-          );
-          browser.close();
-        }
+        browser.close();
 
         await page.click(".HBoOv.coreSpriteRightPaginationArrow");
       }
@@ -174,8 +156,27 @@ const countArr = require("./module/countArr");
         instArr.push([location, date]);
       }
 
+      mongoose
+        .connect(process.env.MONGO_URI, {
+          useUnifiedTopology: true,
+          useNewUrlParser: true
+        })
+        .then(() => {
+          console.log("Successfully connected to mongodb");
+          instData = new Hashtag({
+            date: date,
+            location: location,
+            tag: tags
+          });
+
+          instData.save((err, book) => {
+            if (err) return console.error(err);
+            console.log(instData.tag);
+          });
+        })
+        .catch(e => console.error(e));
+
       count++;
-      // await page.screenshot({ path: screenshot });
     }
 
     let tagsCountArr = [];
