@@ -14,6 +14,10 @@ const CountTags = require("../../models/countTags");
 // }
 
 const crawlTodb = function(date, location, tags) {
+  let instData;
+  let locaCounts;
+  let tagsCounts;
+
   mongoose
     .connect(process.env.MONGO_URI, {
       useUnifiedTopology: true,
