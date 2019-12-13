@@ -10,6 +10,6 @@ const port = process.env.PORT || 4500;
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/hash/", router);
+app.use("/data/", router);
 
 app.listen(port, () => console.log(`Server listening on post ${port}`));

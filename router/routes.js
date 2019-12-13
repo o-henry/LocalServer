@@ -4,6 +4,8 @@ const path = require("path");
 const mongoose = require("mongoose");
 require("dotenv").config({ path: path.resolve(__dirname, "../config/.env") });
 
+var _ = require("lodash");
+
 const Hashtag = require("../models/hashtag");
 const CountLoca = require("../models/countLoca");
 const CountTags = require("../models/countTags");
@@ -22,7 +24,7 @@ mongoose
     console.log("Connected MongoDB");
   })
   .then(() => {
-    router.get("/tgs", (req, res) => {
+    router.get("/tags", (req, res) => {
       Hashtag.find({}, (err, tags) => {
         if (err) return res.json(err);
         return res.json(tags);
@@ -33,7 +35,12 @@ mongoose
     router.get("/location", (req, res) => {
       CountLoca.find({}, (err, loca) => {
         if (err) return res.json(err);
-        return res.json(loca);
+        const countLoca = _.countBy(loca, obj => {
+          if (obj.location !== "") {
+            return obj.location;
+          }
+        });
+        return res.json(countLoca);
       });
     });
   })

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/CgodL/LocalServer#readme",
   "devDependencies": {
     "@babel/cli": "^7.7.5",
+    "async": "^3.1.0",
     "d3": "^5.14.2",
     "d3.layout.cloud": "^1.2.0",
     "dotenv": "^8.2.0",
