@@ -19,7 +19,7 @@ const crawlTodb = function(date, location, tags) {
   let tagsCounts;
 
   mongoose
-    .connect(process.env.MONGO_URI, {
+    .connect(process.env.MONGO_URI_JEJU, {
       useUnifiedTopology: true,
       useNewUrlParser: true
     })
