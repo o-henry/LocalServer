@@ -17,12 +17,12 @@ router.get("/", (req, res) => {
 });
 
 mongoose
-  .connect(process.env.MONGO_URI_JEJU, {
+  .connect(process.env.MONGO_URI_SEOUL, {
     useUnifiedTopology: true,
     useNewUrlParser: true
   })
   .then(() => {
-    console.log("Connected MongoDB");
+    console.log("Connected MongoDB Seoul");
   })
   .then(() => {
     router.get("/tags", cors(), (req, res) => {

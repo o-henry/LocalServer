@@ -13,13 +13,13 @@ const CountTags = require("../../models/countTags");
 //   return new Hashtag({date:data,location:location,tag:tags})
 // }
 
-const crawlTodb = function(date, location, tags) {
+const crawlTodb = function(date, location, tags, uri) {
   let instData;
   let locaCounts;
   let tagsCounts;
 
   mongoose
-    .connect(process.env.MONGO_URI_JEJU, {
+    .connect(uri, {
       useUnifiedTopology: true,
       useNewUrlParser: true
     })

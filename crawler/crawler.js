@@ -14,6 +14,10 @@ const crawlTodb = require("./module/crawlTodb");
   let location;
   let date;
 
+  let jeju =
+    "https://www.instagram.com/explore/tags/%EC%A0%9C%EC%A3%BC%EB%8F%84/";
+  let seoul = "https://www.instagram.com/explore/tags/seoul/";
+
   try {
     await page.goto("https://www.instagram.com/accounts/login/"); // Instagram 로그인 화면 이동
     await page.waitForSelector('input[name="username"]');
@@ -26,9 +30,8 @@ const crawlTodb = require("./module/crawlTodb");
     await page.click(".aOOlW.HoLwm");
 
     // Go to 'Jejudo' page (제주도를 직접 입력 / 하드코딩)
-    await page.goto(
-      "https://www.instagram.com/explore/tags/%EC%A0%9C%EC%A3%BC%EB%8F%84/"
-    );
+    // await page.goto(jeju);
+    await page.goto(seoul);
 
     await page.waitForSelector("article div a");
 
@@ -45,7 +48,7 @@ const crawlTodb = require("./module/crawlTodb");
     }
 
     // 해시태그를 뽑아냅니다.
-    while (count < 10) {
+    while (count < 100) {
       //Code for crawling Loaction
       try {
         await page.waitForSelector(".M30cS", { timeout: 5000 });
@@ -57,7 +60,7 @@ const crawlTodb = require("./module/crawlTodb");
         console.log(error);
 
         // DB 에 데이터 추가 하기
-        crawlTodb(date, location, tags);
+        crawlTodb(date, location, tags, process.env.MONGO_URI_SEOUL);
 
         browser.close();
 
@@ -111,7 +114,7 @@ const crawlTodb = require("./module/crawlTodb");
       }
 
       // DB 에 데이터 추가 하기
-      crawlTodb(date, location, tags);
+      crawlTodb(date, location, tags, process.env.MONGO_URI_SEOUL);
 
       count++;
     }
