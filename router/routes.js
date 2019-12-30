@@ -39,9 +39,7 @@ mongoose
 
         // make count
         const countLoca = _.countBy(loca, obj => {
-          if (obj.location !== "") {
-            return obj.location;
-          }
+          return obj.location;
         });
 
         // sorting
@@ -60,13 +58,12 @@ mongoose
         // obj to JSON
         const jsonRes = [];
         for (let key in objSorted) {
-          if (key !== "undefined") {
-            jsonRes.push({ location: key, locationCount: objSorted[key] });
-          }
+          jsonRes.push({ location: key, locationCount: objSorted[key] });
         }
+
         console.log("jsonRes", jsonRes);
         return res.json(jsonRes);
-      });
+      }).limit(15);
     });
   })
   .then(() => {

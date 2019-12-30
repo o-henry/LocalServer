@@ -13,7 +13,7 @@ const CountTags = require("../../models/countTags");
 //   return new Hashtag({date:data,location:location,tag:tags})
 // }
 
-const crawlTodb = function(date, location, tags, uri) {
+const crawlTodb = function(uri, date, tags, location) {
   let instData;
   let locaCounts;
   let tagsCounts;

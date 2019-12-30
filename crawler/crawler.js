@@ -60,7 +60,11 @@ const crawlTodb = require("./module/crawlTodb");
         console.log(error);
 
         // DB 에 데이터 추가 하기
-        crawlTodb(date, location, tags, process.env.MONGO_URI_SEOUL);
+        if (location !== "") {
+          crawlTodb(process.env.MONGO_URI_SEOUL, date, tags, location);
+        } else {
+          crawlTodb(process.env.MONGO_URI_SEOUL, date, tags);
+        }
 
         browser.close();
 
@@ -114,8 +118,12 @@ const crawlTodb = require("./module/crawlTodb");
       }
 
       // DB 에 데이터 추가 하기
-      crawlTodb(date, location, tags, process.env.MONGO_URI_SEOUL);
 
+      if (location !== "") {
+        crawlTodb(process.env.MONGO_URI_SEOUL, date, tags, location);
+      } else {
+        crawlTodb(process.env.MONGO_URI_SEOUL, date, tags);
+      }
       count++;
     }
   } catch (err) {
