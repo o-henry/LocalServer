@@ -12,4 +12,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/data/", router);
 
-app.listen(port, () => console.log(`Server listening on post ${port}`));
+var server = app.listen(port, () => {
+  console.log(`Server listening on post ${port}`);
+});

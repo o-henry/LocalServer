@@ -27,7 +27,6 @@ mongoose
   .then(() => {
     router.get("/tags", cors(), (req, res) => {
       Hashtag.find({}, (err, tags) => {
-        console.log("tags", tags);
         if (err) return res.json(err);
         return res.json(tags);
       });
@@ -36,7 +35,6 @@ mongoose
   .then(() => {
     router.get("/location", cors(), (req, res) => {
       CountLoca.find({}, (err, loca) => {
-        console.log("loca", loca);
         if (err) return res.json(err);
 
         // make count
@@ -46,11 +44,27 @@ mongoose
           }
         });
 
+        // sorting
+        var sortRes = [];
+        for (let data in countLoca) {
+          sortRes.push([data, countLoca[data]]);
+        }
+        sortRes.sort(function(a, b) {
+          return b[1] - a[1];
+        });
+        var objSorted = {};
+        sortRes.forEach(function(item) {
+          objSorted[item[0]] = item[1];
+        });
+
         // obj to JSON
         const jsonRes = [];
-        for (let key in countLoca) {
-          jsonRes.push({ location: key, locationCount: countLoca[key] });
+        for (let key in objSorted) {
+          if (key !== "undefined") {
+            jsonRes.push({ location: key, locationCount: objSorted[key] });
+          }
         }
+        console.log("jsonRes", jsonRes);
         return res.json(jsonRes);
       });
     });
