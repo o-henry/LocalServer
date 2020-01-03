@@ -3,13 +3,15 @@ const router = express.Router();
 const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const ISODate = require("isodate");
+
 require("dotenv").config({ path: path.resolve(__dirname, "../config/.env") });
 
 var _ = require("lodash");
 
 const Hashtag = require("../models/hashtag");
-const CountLoca = require("../models/countLoca");
 const CountTags = require("../models/countTags");
+const recommendLocation = require("./filter");
 
 router.get("/", (req, res) => {
   res.send("Well done");
@@ -34,36 +36,14 @@ mongoose
   })
   .then(() => {
     router.get("/location", cors(), (req, res) => {
-      CountLoca.find({}, (err, loca) => {
-        if (err) return res.json(err);
-
-        // make count
-        const countLoca = _.countBy(loca, obj => {
-          return obj.location;
-        });
-
-        // sorting
-        var sortRes = [];
-        for (let data in countLoca) {
-          sortRes.push([data, countLoca[data]]);
-        }
-        sortRes.sort(function(a, b) {
-          return b[1] - a[1];
-        });
-        var objSorted = {};
-        sortRes.forEach(function(item) {
-          objSorted[item[0]] = item[1];
-        });
-
-        // obj to JSON
-        const jsonRes = [];
-        for (let key in objSorted) {
-          jsonRes.push({ location: key, locationCount: objSorted[key] });
-        }
-
-        console.log("jsonRes", jsonRes);
-        return res.json(jsonRes);
-      }).limit(15);
+      recommendLocation(req, res, {});
+    });
+  })
+  .then(() => {
+    router.get("/today", cors(), (req, res) => {
+      recommendLocation(req, res, {
+        date: { $gte: new Date(new Date().getTime() - 1 * 24 * 60 * 60000) }
+      });
     });
   })
   .then(() => {
