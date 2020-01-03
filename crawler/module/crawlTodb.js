@@ -13,7 +13,7 @@ const CountTags = require("../../models/countTags");
 //   return new Hashtag({date:data,location:location,tag:tags})
 // }
 
-const crawlTodb = function(uri, date, tags, location) {
+const crawlTodb = function(uri, tags, location) {
   let instData;
   let locaCounts;
   let tagsCounts;
@@ -26,7 +26,6 @@ const crawlTodb = function(uri, date, tags, location) {
     .then(() => {
       console.log("Successfully connected to mongodb");
       instData = new Hashtag({
-        date: date,
         location: location,
         tag: tags
       });

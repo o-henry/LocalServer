@@ -47,6 +47,20 @@ mongoose
     });
   })
   .then(() => {
+    router.get("/week", cors(), (req, res) => {
+      recommendLocation(req, res, {
+        date: { $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60000) }
+      });
+    });
+  })
+  .then(() => {
+    router.get("/month", cors(), (req, res) => {
+      recommendLocation(req, res, {
+        date: { $gte: new Date(new Date().getTime() - 31 * 24 * 60 * 60000) }
+      });
+    });
+  })
+  .then(() => {
     router.get("/tagscount", cors(), (req, res) => {
       CountTags.find({}, (err, tags) => {
         if (err) return res.json(err);

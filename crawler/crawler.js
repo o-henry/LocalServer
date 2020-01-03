@@ -12,7 +12,7 @@ const crawlTodb = require("./module/crawlTodb");
   let beforeClick = 0;
   let tags;
   let location;
-  let date;
+  // let date;
 
   let jeju =
     "https://www.instagram.com/explore/tags/%EC%A0%9C%EC%A3%BC%EB%8F%84/";
@@ -61,9 +61,9 @@ const crawlTodb = require("./module/crawlTodb");
 
         // DB 에 데이터 추가 하기
         if (location !== "") {
-          crawlTodb(process.env.MONGO_URI_SEOUL, date, tags, location);
+          crawlTodb(process.env.MONGO_URI_SEOUL, tags, location);
         } else {
-          crawlTodb(process.env.MONGO_URI_SEOUL, date, tags);
+          crawlTodb(process.env.MONGO_URI_SEOUL, tags);
         }
 
         browser.close();
@@ -72,11 +72,11 @@ const crawlTodb = require("./module/crawlTodb");
       }
 
       //Code for crawling Date
-      await page.waitForSelector("._1o9PC.Nzb55");
-      date = await page.evaluate(() => {
-        const div = document.querySelector("._1o9PC.Nzb55").dateTime;
-        return div;
-      });
+      // await page.waitForSelector("._1o9PC.Nzb55");
+      // date = await page.evaluate(() => {
+      //   const div = document.querySelector("._1o9PC.Nzb55").dateTime;
+      //   return div;
+      // });
 
       // Wait until the tag appears under the article tag, div tag a tag.
       // await page.waitForSelector("article div a");
@@ -120,9 +120,9 @@ const crawlTodb = require("./module/crawlTodb");
       // DB 에 데이터 추가 하기
 
       if (location !== "") {
-        crawlTodb(process.env.MONGO_URI_SEOUL, date, tags, location);
+        crawlTodb(process.env.MONGO_URI_SEOUL, tags, location);
       } else {
-        crawlTodb(process.env.MONGO_URI_SEOUL, date, tags);
+        crawlTodb(process.env.MONGO_URI_SEOUL, tags);
       }
       count++;
     }
