@@ -13,7 +13,7 @@ const CountTags = require("../../models/countTags");
 //   return new Hashtag({date:data,location:location,tag:tags})
 // }
 
-const crawlTodb = function(uri, tags, location) {
+const crawlTodb = function(uri, location) {
   let instData;
   let locaCounts;
   let tagsCounts;
@@ -24,34 +24,34 @@ const crawlTodb = function(uri, tags, location) {
       useNewUrlParser: true
     })
     .then(() => {
-      console.log("Successfully connected to mongodb");
-      instData = new Hashtag({
-        location: location,
-        tag: tags
-      });
+      // console.log("Successfully connected to mongodb");
+      // instData = new Hashtag({
+      //   location: location,
+      //   tag: tags
+      // });
 
       locaCounts = new CountLoca({
         location: location
       });
 
-      tagsCounts = new CountTags({
-        tag: tags
-      });
+      // tagsCounts = new CountTags({
+      //   tag: tags
+      // });
 
-      instData.save(err => {
-        if (err) return console.error(err);
-        console.log(instData.tag);
-      });
+      // instData.save(err => {
+      //   if (err) return console.error(err);
+      //   console.log(instData.tag);
+      // });
 
       locaCounts.save(err => {
-        if (err) return console.error(err);
+        // if (err) return console.error(err);
         console.log(locaCounts.location);
       });
 
-      tagsCounts.save(err => {
-        if (err) return console.error(err);
-        console.log(tagsCounts.tag);
-      });
+      // tagsCounts.save(err => {
+      //   if (err) return console.error(err);
+      //   console.log(tagsCounts.tag);
+      // });
     })
     .catch(e => console.error(e));
 };

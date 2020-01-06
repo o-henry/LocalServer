@@ -5,7 +5,11 @@ require("dotenv").config({ path: path.resolve(__dirname, "../config/.env") });
 const crawlTodb = require("./module/crawlTodb");
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({
+    headless: false,
+    devtools: true
+    // args: ["--start-maximized", "--proxy-server=96.9.77.192:55796"]
+  });
   const page = await browser.newPage();
 
   let count = 0;
@@ -48,7 +52,7 @@ const crawlTodb = require("./module/crawlTodb");
     }
 
     // 해시태그를 뽑아냅니다.
-    while (count < 100) {
+    while (count < 10) {
       //Code for crawling Loaction
       try {
         await page.waitForSelector(".M30cS", { timeout: 5000 });
@@ -61,10 +65,12 @@ const crawlTodb = require("./module/crawlTodb");
 
         // DB 에 데이터 추가 하기
         if (location !== "") {
-          crawlTodb(process.env.MONGO_URI_SEOUL, tags, location);
-        } else {
-          crawlTodb(process.env.MONGO_URI_SEOUL, tags);
+          crawlTodb(process.env.MONGO_URI_SEOUL, location);
         }
+        //   crawlTodb(process.env.MONGO_URI_SEOUL, tags, location);
+        // } else {
+        //   crawlTodb(process.env.MONGO_URI_SEOUL, tags);
+        // }
 
         browser.close();
 
@@ -81,49 +87,52 @@ const crawlTodb = require("./module/crawlTodb");
       // Wait until the tag appears under the article tag, div tag a tag.
       // await page.waitForSelector("article div a");
       // Code for crawling hashtag after click
-      try {
-        await page.waitForSelector("article div span a", { timeout: 4000 });
-        tags = await page.evaluate(() => {
-          const div = Array.from(
-            document.querySelectorAll("article div span a")
-          );
-          //해시태그에서 '#'을 포함한 요소중에서 '#'을 제거해서 반환합니다. ( @, '로그인' 같이 태그가 아닌 데이터는 버립니다. )
-          return div
-            .map(function(a) {
-              if (a.textContent.includes("#")) {
-                return a.textContent
-                  .split("#")
-                  .splice(1, 1)
-                  .join(",");
-              }
-            })
-            .join(",");
-        });
-      } catch (error) {
-        console.log(error);
-        await page.click(".HBoOv.coreSpriteRightPaginationArrow");
-      }
+      // try {
+      //   await page.waitForSelector("article div span a", { timeout: 4000 });
+      //   tags = await page.evaluate(() => {
+      //     const div = Array.from(
+      //       document.querySelectorAll("article div span a")
+      //     );
+      //     //해시태그에서 '#'을 포함한 요소중에서 '#'을 제거해서 반환합니다. ( @, '로그인' 같이 태그가 아닌 데이터는 버립니다. )
+      //     return div
+      //       .map(function(a) {
+      //         if (a.textContent.includes("#")) {
+      //           return a.textContent
+      //             .split("#")
+      //             .splice(1, 1)
+      //             .join(",");
+      //         }
+      //       })
+      //       .join(",");
+      //   });
+      // } catch (error) {
+      //   console.log(error);
+      //   await page.click(".HBoOv.coreSpriteRightPaginationArrow");
+      // }
 
       //Click the > button when the page is crawling.
       await page.click(".HBoOv.coreSpriteRightPaginationArrow");
 
       //Store the location,tags,date in a one-dimensional array.
       //null 처리
-      if (tags !== undefined) {
-        for (let i = tags.length; i > -1; i--) {
-          if (tags[i] === null) {
-            tags.splice(i, 1);
-          }
-        }
-      }
+      // if (tags !== undefined) {
+      //   for (let i = tags.length; i > -1; i--) {
+      //     if (tags[i] === null) {
+      //       tags.splice(i, 1);
+      //     }
+      //   }
+      // }
 
       // DB 에 데이터 추가 하기
 
-      if (location !== "") {
-        crawlTodb(process.env.MONGO_URI_SEOUL, tags, location);
-      } else {
-        crawlTodb(process.env.MONGO_URI_SEOUL, tags);
-      }
+      // if (location !== "") {
+      //   crawlTodb(process.env.MONGO_URI_SEOUL, tags, location);
+      // } else {
+      //   crawlTodb(process.env.MONGO_URI_SEOUL, tags);
+      // }
+
+      crawlTodb(process.env.MONGO_URI_SEOUL, location);
+
       count++;
     }
   } catch (err) {
