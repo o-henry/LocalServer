@@ -4,7 +4,7 @@ var _ = require("lodash");
 function recommendLocation(req, res, rest) {
   CountLoca.find(rest, (err, loca) => {
     if (err) return res.json(err);
-
+    console.log("loca", loca);
     // make count
     const countLoca = _.countBy(loca, obj => {
       return obj.location;

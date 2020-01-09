@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 });
 
 mongoose
-  .connect(process.env.MONGO_URI_SEOUL, {
+  .connect(process.env.MONGO_URI_BUSAN, {
     useUnifiedTopology: true,
     useNewUrlParser: true
   })
@@ -41,7 +41,7 @@ mongoose
   .then(() => {
     router.get("/today", cors(), (req, res) => {
       recommendLocation(req, res, {
-        date: { $gte: new Date(new Date().getTime() - 1 * 24 * 60 * 60000) }
+        date: { $gte: new Date(new Date().getTime() - 3 * 24 * 60 * 60000) }
       });
     });
   })
