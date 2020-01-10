@@ -30,35 +30,44 @@ const crawlTodb = function(uri, location) {
       //   tag: tags
       // });
 
-      // location =
-      // [{
-      //   _id: 5e100f0e0ff9025a08fa4d09,
-      //   location: 'lee.nosa',
-      //   date: 2020-01-04T04:05:34.659Z,
-      //   __v: 0
-      // }]
-
-      // 저장되어 있는 가장 최근에 크롤링한 데이터
       // CountLoca.find()
-      // .sort({ _id: -1 })
-      // .limit(1)
-      // .then(res => console.log("teee", res));
+      //   .sort({ _id: -1 })
+      //   .limit(10)
+      //   .then(res => {
+      //     console.log("res", res);
+      //     for (let obj of res) {
+      //       if (obj.location !== location) {
+      //         locaCounts = new CountLoca({
+      //           location: location
+      //         });
 
-      // 10개의 최신 크롤링 데이터
+      //         locaCounts.save(err => {
+      //           // if (err) return console.error(err);
+      //           console.log("loca", locaCounts.location);
+      //         });
+      //       }
+      //     }
+      //   });
 
       CountLoca.find()
         .sort({ _id: -1 })
-        .limit(1)
-        .exec(function(err, res) {
-          console.log("기존DB", res[0].location);
-          console.log("location", location);
-          if (location !== res[0].location) {
+        .limit(10)
+        .then(res => {
+          console.log("res", res);
+          let isLocation = false;
+          for (let obj of res) {
+            if (obj.location === location) {
+              isLocation = true;
+            }
+          }
+          if (isLocation === false) {
             locaCounts = new CountLoca({
               location: location
             });
+
             locaCounts.save(err => {
               // if (err) return console.error(err);
-              // console.log("loca", locaCounts.location);
+              console.log("loca", locaCounts.location);
             });
           }
         });
