@@ -30,30 +30,11 @@ const crawlTodb = function(uri, location) {
       //   tag: tags
       // });
 
-      // CountLoca.find()
-      //   .sort({ _id: -1 })
-      //   .limit(10)
-      //   .then(res => {
-      //     console.log("res", res);
-      //     for (let obj of res) {
-      //       if (obj.location !== location) {
-      //         locaCounts = new CountLoca({
-      //           location: location
-      //         });
-
-      //         locaCounts.save(err => {
-      //           // if (err) return console.error(err);
-      //           console.log("loca", locaCounts.location);
-      //         });
-      //       }
-      //     }
-      //   });
-
       CountLoca.find()
         .sort({ _id: -1 })
         .limit(10)
         .then(res => {
-          console.log("res", res);
+          // console.log("res", res);
           let isLocation = false;
           for (let obj of res) {
             if (obj.location === location) {

@@ -4,7 +4,7 @@ require("dotenv").config({ path: path.resolve(__dirname, "../config/.env") });
 
 const crawlTodb = require("./module/crawlTodb");
 
-(async () => {
+let crawl = async () => {
   const browser = await puppeteer.launch({
     headless: false,
     devtools: true
@@ -36,7 +36,7 @@ const crawlTodb = require("./module/crawlTodb");
 
     // Go to 'Jejudo' page (제주도를 직접 입력 / 하드코딩)
     // await page.goto(jeju);
-    await page.goto(busan);
+    await page.goto(seoul);
 
     await page.waitForSelector("article div a");
 
@@ -66,7 +66,7 @@ const crawlTodb = require("./module/crawlTodb");
 
         // DB 에 데이터 추가 하기
         if (location !== "") {
-          crawlTodb(process.env.MONGO_URI_BUSAN, location);
+          crawlTodb(process.env.MONGO_URI_SEOUL, location);
         }
         //   crawlTodb(process.env.MONGO_URI_SEOUL, tags, location);
         // } else {
@@ -132,7 +132,7 @@ const crawlTodb = require("./module/crawlTodb");
       //   crawlTodb(process.env.MONGO_URI_SEOUL, tags);
       // }
 
-      crawlTodb(process.env.MONGO_URI_BUSAN, location);
+      crawlTodb(process.env.MONGO_URI_SEOUL, location);
 
       count++;
     }
@@ -140,4 +140,6 @@ const crawlTodb = require("./module/crawlTodb");
     console.log(err);
   }
   browser.close();
-})();
+};
+
+setInterval(crawl, 60000);
