@@ -34,7 +34,6 @@ const crawlTodb = function(uri, location) {
         .sort({ _id: -1 })
         .limit(10)
         .then(res => {
-          // console.log("res", res);
           let isLocation = false;
           for (let obj of res) {
             if (obj.location === location) {
@@ -76,7 +75,7 @@ const crawlTodb = function(uri, location) {
       //   console.log(tagsCounts.tag);
       // });
     })
-    .catch(e => console.error(e));
+    .catch(e => console.error("error", e));
 };
 
 module.exports = crawlTodb;
