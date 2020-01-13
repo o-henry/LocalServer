@@ -5,25 +5,11 @@ require("dotenv").config({ path: path.resolve(__dirname, "../config/.env") });
 const crawlTodb = require("./module/crawlTodb");
 
 let crawl = async () => {
-  const browser = await puppeteer.launch({
-    headless: false,
-    devtools: true
-    // args: ["--start-maximized", "--proxy-server=96.9.77.192:55796"]
-  });
-  const page = await browser.newPage();
-
   let count = 0;
   let beforeClick = 0;
   let tags;
   let location;
   // let date;
-
-  // const keywords = [
-  //   "https://www.instagram.com/explore/tags/%EC%A0%9C%EC%A3%BC%EB%8F%84/",
-  //   "https://www.instagram.com/explore/tags/seoul/",
-  //   "https://www.instagram.com/explore/tags/busan/?hl=ko",
-  //   "https://www.instagram.com/explore/tags/%EA%B0%95%EC%9B%90%EB%8F%84/?hl=ko"
-  // ];
 
   let jeju =
     "https://www.instagram.com/explore/tags/%EC%A0%9C%EC%A3%BC%EB%8F%84/";
@@ -31,6 +17,16 @@ let crawl = async () => {
   let busan = "https://www.instagram.com/explore/tags/busan/?hl=ko";
   let gangwon =
     "https://www.instagram.com/explore/tags/%EA%B0%95%EC%9B%90%EB%8F%84/?hl=ko";
+
+  const browser = await puppeteer.launch({
+    headless: false,
+    devtools: true
+    // args: ["--start-maximized", "--proxy-server=96.9.77.192:55796"]
+  });
+
+  // 로직 1
+  // 각 링크를 배열에 저장하여, newPage로 생성한뒤 loop를 돌려 백틱으로 넘겨주는 방법
+  const page = await browser.newPage();
 
   try {
     await page.goto("https://www.instagram.com/accounts/login/"); // Instagram 로그인 화면 이동
@@ -44,13 +40,7 @@ let crawl = async () => {
     await page.click(".aOOlW.HoLwm");
 
     // Go to 'Jejudo' page (제주도를 직접 입력 / 하드코딩)
-    const JejuPg = await browser.newPage();
-    await JejuPg.goto(jeju);
-
-    const SeoulPg = await browser.newPage();
-    await SeoulPg.goto(seoul);
-
-    // await page.goto(seoul);
+    await page.goto(seoul);
 
     // for (let i = 0; i < keywords.length; i++) {
     //   const keyword = keywords[i];
@@ -163,5 +153,5 @@ let crawl = async () => {
   browser.close();
 };
 
-// setInterval(crawl, 75000);
+// setInterval(crawl, 5000);
 crawl();
