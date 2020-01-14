@@ -1,6 +1,7 @@
 const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, "./config/.env") });
-import router from "./router/routes";
+import routesSeoul from "./router/routesSeoul";
+import routesJeju from "./router/routesJeju";
 import express from "express";
 
 // setting express middleware
@@ -10,7 +11,8 @@ const port = process.env.PORT || 4500;
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/data/", router);
+app.use("/seoul", routesSeoul);
+app.use("/jeju", routesJeju);
 
 app.listen(port, () => {
   console.log(`Server listening on post ${port}`);

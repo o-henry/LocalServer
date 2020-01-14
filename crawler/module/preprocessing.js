@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 require("dotenv").config({ path: path.resolve(__dirname, "./config/.env") });
 
 const collections = require("pycollections");
-const CountLoca = require("./models/countLoca");
+const CountLoca = require("../../models/countLoca");
 
 mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
