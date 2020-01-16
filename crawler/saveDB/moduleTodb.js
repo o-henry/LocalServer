@@ -3,6 +3,7 @@ const path = require("path");
 require("dotenv").config({
   path: path.resolve(__dirname, "../../config/.env")
 });
+const except = require("../module/filter_data");
 
 function saveEachDB(uri, schema, location) {
   let locaCounts;
@@ -23,7 +24,7 @@ function saveEachDB(uri, schema, location) {
               isLocation = true;
             }
           }
-          if (isLocation === false) {
+          if (isLocation === false && !except.includes(location)) {
             locaCounts = new schema({
               location: location
             });

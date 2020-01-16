@@ -44,11 +44,10 @@ async function open_tab(url, db, browser, id, pwd) {
 
     // click 초기 설정 페이지
     try {
-      await page.waitForSelector(".piCib", { timeout: 2000 });
+      // await page.waitForSelector(".piCib", { timeout: 2000 });
       await page.waitForSelector(".aOOlW.HoLwm");
       await page.click(".aOOlW.HoLwm");
-      await page.goto(url);
-
+      await spage.goto(url); // 서울, 제주
       await page.waitForSelector("article div a");
 
       // Click 'a' tag
@@ -73,7 +72,7 @@ async function open_tab(url, db, browser, id, pwd) {
             return div;
           });
         } catch (error) {
-          console.log("에러", error);
+          console.log("로케이션 태그 를 찾지못한 에러", error);
 
           // DB 에 데이터 추가 하기
           if (location !== "") {
@@ -138,9 +137,8 @@ async function open_tab(url, db, browser, id, pwd) {
     console.log("로그인 에러 ---- 기다리시오", err);
     setTimeout(() => console.log("Wait for a few minutes"), 3000000);
   }
-  await page.waitFor(15000);
-  browser.close();
+  await page.waitFor(20000);
+  // browser.close();
 }
 
-// setInterval(init, 80000);
-init();
+setInterval(init, 90000);
