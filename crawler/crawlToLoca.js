@@ -137,8 +137,8 @@ async function open_tab(url, db, browser, id, pwd) {
     console.log("로그인 에러 ---- 기다리시오", err);
     setTimeout(() => console.log("Wait for a few minutes"), 3000000);
   }
-  await page.waitFor(20000);
-  // browser.close();
+  await page.waitFor(25000);
+  browser.close();
 }
 
 setInterval(init, 90000);
