@@ -47,7 +47,7 @@ async function open_tab(url, db, browser, id, pwd) {
       // await page.waitForSelector(".piCib", { timeout: 2000 });
       await page.waitForSelector(".aOOlW.HoLwm");
       await page.click(".aOOlW.HoLwm");
-      await spage.goto(url); // 서울, 제주
+      await page.goto(url); // 서울, 제주
       await page.waitForSelector("article div a");
 
       // Click 'a' tag

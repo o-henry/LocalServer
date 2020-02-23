@@ -2,6 +2,7 @@ const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, "./config/.env") });
 import routesSeoul from "./router/routesSeoul";
 import routesJeju from "./router/routesJeju";
+import authRouter from "./router/auth";
 import express from "express";
 
 // setting express middleware
