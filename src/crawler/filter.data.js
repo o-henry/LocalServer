@@ -10,7 +10,7 @@ async function recommendLocation(req, res, rest) {
   });
 
   // sorting
-  var sortRes = [];
+  let sortRes = [];
   for (let data in countLoca) {
     sortRes.push([data, countLoca[data]]);
   }
@@ -19,7 +19,7 @@ async function recommendLocation(req, res, rest) {
     return b[1] - a[1];
   });
 
-  var objSorted = {};
+  let objSorted = {};
   sortRes.forEach(function (item) {
     objSorted[item[0]] = item[1];
   });
@@ -30,6 +30,7 @@ async function recommendLocation(req, res, rest) {
     jsonRes.push({ location: key, locationCount: objSorted[key] });
   }
 
+  console.log(jsonRes);
   return jsonRes;
 }
 
