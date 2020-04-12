@@ -102,8 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
-.babelrc
 csv_container/
-models/
 config/
 .DS_Store

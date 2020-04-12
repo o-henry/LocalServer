@@ -1,11 +1,11 @@
-const { CountLoca } = require("../models/countLoca");
-var _ = require("lodash");
 const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, "../config/.env") });
+const Jeju = require("../database/models/jeju.model");
+const _ = require("lodash");
 
-async function recommendLocationJeju(req, res, rest) {
-  const locations = await CountLoca.find(rest).exec();
-  const countLoca = _.countBy(locations, obj => {
+async function recommendLocation(req, res, rest) {
+  const locations = await Jeju.find(rest).exec();
+  const countLoca = _.countBy(locations, (obj) => {
     return obj.location;
   });
 
@@ -15,12 +15,12 @@ async function recommendLocationJeju(req, res, rest) {
     sortRes.push([data, countLoca[data]]);
   }
 
-  sortRes.sort(function(a, b) {
+  sortRes.sort(function (a, b) {
     return b[1] - a[1];
   });
 
   var objSorted = {};
-  sortRes.forEach(function(item) {
+  sortRes.forEach(function (item) {
     objSorted[item[0]] = item[1];
   });
 
@@ -33,4 +33,4 @@ async function recommendLocationJeju(req, res, rest) {
   return jsonRes;
 }
 
-module.exports = recommendLocationJeju;
+module.exports = recommendLocation;
