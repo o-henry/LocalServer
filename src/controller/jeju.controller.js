@@ -35,4 +35,5 @@ jejuController.get("/month", cors(), (req, res) => {
     date: { $gte: new Date(new Date().getTime() - 31 * 24 * 60 * 60000) },
   });
 });
+
 export default jejuController;
